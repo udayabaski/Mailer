@@ -115,7 +115,7 @@
            <td class="table-heading">Bounced</td>
             </tr>
             
-            <c:forEach items="${homeBean.scheduledCampaigns}" var="pageItem" varStatus="reqStatus">
+            <c:forEach items="${homeBean.completedCampaigns}" var="pageItem" varStatus="reqStatus">
             
             <tr onmouseout="this.className='emailcampheader'" onmouseover="this.className='emailcampHeaderHover'" class="emailcampheader">
             <td class="tbl-btm-bdr"><c:out value="${pageItem.campaignName}"></c:out></td>

@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <table width="100%" cellpadding="0" cellspacing="0">
 <tr>
@@ -18,7 +19,7 @@
 <img src="images/logo.png" /> 
 </td>
 <td align="right" valign="top">
-Logout
+<a href="<c:url value="/j_spring_security_logout"/>">Logout</a>
 </td>
 
 </tr>
