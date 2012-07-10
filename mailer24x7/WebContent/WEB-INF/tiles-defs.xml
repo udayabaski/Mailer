@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ 
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+	"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="baseLayout" template="/WEB-INF/tiles/layout.jsp">
+		<put-attribute name="title" value="Mailer24x7" />
+		<put-attribute name="header" value="/WEB-INF/tiles/header.jsp" /> 
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp" />
+	</definition>
+
+    <definition name="register" extends="baseLayout">
+		<put-attribute name="title" value="Mailer24x7 : Registration" />
+		<put-attribute name="header" value="" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/regform.jsp" />
+	</definition>
+	
+	<definition name="login" extends="baseLayout">
+		<put-attribute name="title" value="Mailer24x7 : Login" />
+		<put-attribute name="header" value="" />
+		<put-attribute name="body" value="/WEB-INF/views/Login.jsp" />
+	</definition>
+		
+	<definition name="home" extends="baseLayout">
+		<put-attribute name="title" value="Mailer24x7 : home" />
+		<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
+	</definition>
+	
+	<definition name="profile" extends="baseLayout">
+		<put-attribute name="title" value="Mailer24x7 : home" />
+		<put-attribute name="header" value="/WEB-INF/tiles/header.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/users.jsp" />
+	</definition>
+	
+	<definition name="campaign" extends="baseLayout">
+		<put-attribute name="title" value="Mailer24x7 : home" />
+		<put-attribute name="body" value="/WEB-INF/views/campaign.jsp" />
+	</definition>
+	
+	<definition name="subscribergroup" extends="baseLayout">
+		<put-attribute name="title" value="Mailer24x7 : home" />
+		<put-attribute name="body" value="/WEB-INF/views/subscribergroup.jsp" />
+	</definition>
+	
+	<definition name="viewusers" extends="baseLayout">
+		<put-attribute name="title" value="Mailer24x7 : home" />
+		<put-attribute name="body" value="/WEB-INF/views/viewusers.jsp" />
+	</definition>
+	
+	<definition name="newuser" extends="baseLayout">
+		<put-attribute name="title" value="Mailer24x7 : home" />
+		<put-attribute name="body" value="/WEB-INF/views/newuser.jsp" />
+	</definition>
+	
+	<definition name="viewsubgroups" extends="baseLayout">
+		<put-attribute name="title" value="Mailer24x7 : home" />
+		<put-attribute name="body" value="/WEB-INF/views/viewsubgroups.jsp" />
+	</definition>
+	
+	<definition name="viewgroupdetails" extends="baseLayout">
+		<put-attribute name="title" value="Mailer24x7 : home" />
+		<put-attribute name="body" value="/WEB-INF/views/viewgroupdetails.jsp" />
+	</definition>
+	
+	<definition name="viewreport" extends="baseLayout">
+		<put-attribute name="title" value="Mailer24x7 : home" />
+		<put-attribute name="body" value="/WEB-INF/views/reports.jsp" />
+	</definition>
+
+</tiles-definitions>

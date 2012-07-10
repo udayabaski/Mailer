@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	
+	<!--<tx:jta-transaction-manager/> -->
+
+	 <tx:annotation-driven transaction-manager="dataSourceTransactionManager" mode="proxy"/>  
+
+	 <!-- Declare a transaction manager -->
+     <!-- See http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/transaction.html -->
+ 	 <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+          p:dataSource-ref="dataSource" />   
+	
+	<!-- Activates various annotations to be detected in bean classes -->
+	<context:annotation-config />
+
+    <!-- Scans the classpath for annotated components that will be auto-registered as Spring beans.
+    For example @Controller and @Service. Make sure to set the correct base-package-->
+	<context:component-scan base-package="com.nervytech.mailer24x7.spring.controllers" />
+	
+	<!-- Configures the annotation-driven Spring MVC Controller programming model.
+	Note that, with Spring 3.0, this tag works in Servlet MVC only!  -->
+	<mvc:annotation-driven /> 
+	
+	<!-- For Schedule Tasks -->
+	<!-- <task:annotation-driven/>-->
+	
+		<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="/WEB-INF/messages" />
+	</bean>
+
+     <jee:jndi-lookup id="dataSource1" jndi-name="java:comp/env/jdbc/MySQLDS"/>
+
+	 <bean id="dataSource" destroy-method="close"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/mailer24x7" />
+		<property name="username" value="root" />
+		<property name="password" value="vani1982" />
+		<property name="defaultAutoCommit" value="true" />
+	</bean>
+
+	<!-- Configure the multipart resolver -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- one of the properties available; the maximum file size in bytes (i.e - 300kb) -->
+		<property name="maxUploadSize" value="307200" />
+	</bean>
+	
+	<bean id="usersDAO" class="com.nervytech.mailer24x7.model.dao.UsersDAO">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>		
+	</bean>
+
+    <bean id="campaignDAO" class="com.nervytech.mailer24x7.model.dao.CampaignDAO">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>		
+	</bean>
+	
+	<bean id="subscriberDAO" class="com.nervytech.mailer24x7.model.dao.SubscriberDAO">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>		
+	</bean>
+	
+
+    <!-- Scheduler Configuration Starts here .....  -->
+    
+    <bean id="campaignNowJob" class="com.nervytech.mailer24x7.spring.controllers.CampaignNowJob"/>
+    <bean id="campaignLaterJob" class="com.nervytech.mailer24x7.spring.controllers.CampaignLaterJob"/>
+    
+    <bean id="campaignLaterJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+       <property name="targetObject" ref="campaignLaterJob" />
+       <property name="targetMethod" value="run" />
+       <property name="concurrent" value="false" />
+    </bean>
+    
+    <bean id="campaignNowJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+       <property name="targetObject" ref="campaignNowJob" />
+       <property name="targetMethod" value="run" />
+       <property name="concurrent" value="false" />
+    </bean>
+    
+    <bean id="campaignLaterTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+	  <!-- see the example of method invoking job above -->
+	  <property name="jobDetail" ref="campaignLaterJobDetail" />
+	  <!-- 10 seconds -->
+	  <property name="startDelay" value="10000" />
+	  <!-- repeat every 30 seconds -->
+	  <property name="repeatInterval" value="90000" />
+    </bean>
+    
+    <bean id="campaignNowTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+	  <!-- see the example of method invoking job above -->
+	  <property name="jobDetail" ref="campaignNowJobDetail" />
+	  <!-- 10 seconds -->
+	  <property name="startDelay" value="10000" />
+	  <!-- repeat every 30 seconds -->
+	  <property name="repeatInterval" value="90000"/>
+    </bean>
+
+	<!-- <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="exampleJob" />
+		run every morning at 6 AM
+		<property name="cronExpression" value="0 0 6 * * ?" />
+	</bean> -->
+    
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	   <property name="triggers">
+		 <list>
+			<!-- <ref bean="cronTrigger" /> -->
+			<ref bean="campaignNowTrigger" /> 
+			<ref bean="campaignLaterTrigger" />
+		 </list>
+	   </property>
+	   <!-- <property name="quartzProperties">
+            <props>
+                <prop key="org.quartz.scheduler.instanceName">MailerClusteredScheduler</prop>
+                <prop key="org.quartz.scheduler.instanceId">AUTO</prop>
+                <prop key="org.quartz.jobStore.misfireThreshold">60000</prop>
+                <prop key="org.quartz.jobStore.class">org.quartz.impl.jdbcjobstore.JobStoreTX</prop>
+                <prop key="org.quartz.jobStore.driverDelegateClass">org.quartz.impl.jdbcjobstore.StdJDBCDelegate</prop>
+                <prop key="org.quartz.jobStore.dataSource">dataSource</prop> 
+                <prop key="org.quartz.jobStore.tablePrefix">qrtz_</prop>
+                <prop key="org.quartz.jobStore.isClustered">true</prop>
+                <prop key="org.quartz.jobStore.clusterCheckinInterval">20000</prop>
+                <prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
+                <prop key="org.quartz.threadPool.threadCount">25</prop>
+                <prop key="org.quartz.threadPool.threadPriority">5</prop> 
+                <prop key="org.quartz.jobStore.nonManagedTXDataSource">NON_MANAGED_TX_DS_NAME</prop>  
+            </props>
+      </property>  -->
+    </bean>
+    <!-- Scheduler Configuration Ends here ...      -->
+	
+	<util:map id="roleDropDown">
+		<entry key="-1" value="Select" />
+		<entry key="0" value="USER" />
+		<entry key="1" value="ADMIN" />
+	</util:map>
+	
+	<util:map id="countryDropDown">
+		<entry key="-1" value="Select" />
+		<entry key="India" value="India" />
+		<entry key="USA" value="USA" />
+		<entry key="UK" value="UK" />
+		<entry key="Germany" value="Germany" />
+	</util:map>
+	
+</beans>

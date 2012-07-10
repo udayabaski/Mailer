@@ -1,0 +1,312 @@
+/**********************************************************************************
+
+	Project Name: Sign-in Or Register: Form Design From Scratch
+	Project Description: Video tutorial for Webdesign Tuts+
+	File Name: master.css
+	Author: Adi Purdila
+	Author URI: http://www.adipurdila.com
+	Version: 1.0.0
+	
+**********************************************************************************/
+
+/* ---------- Based upon 'reset.css' in the Yahoo! User Interface Library: http://developer.yahoo.com/yui ---------- */
+*, html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, label, fieldset, input, p, blockquote, th, td { margin:0; padding:0 }
+table { border-collapse:collapse; border-spacing:0 }
+fieldset, img { border:0 }
+address, caption, cite, code, dfn, em, strong, th, var { font-style:normal; font-weight:normal }
+ol, ul, li { list-style:none }
+caption, th { text-align:left }
+h1, h2, h3, h4, h5, h6 { font-size:100%; font-weight:normal }
+q:before, q:after { content:''}
+
+strong { font-weight:bold }
+em { font-style:italic }
+a img { border:none } /* Gets rid of IE's blue borders */
+
+sup { font-size: 50%; }
+
+a, a:hover { text-decoration: none; }
+
+
+
+
+
+/* ---------- General Styles ---------- */
+body {
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	font-weight: 300;
+	font-size: 12px;
+	line-height: 1.4em;
+	
+	background:url(../images/body.png) no-repeat scroll center top #D4D4D4;  
+	
+	color: #3d3e41;
+	
+	margin:10% 0; /* Temporary margin to push down the form */
+}
+
+.clearfix:after {
+	visibility: hidden;
+	display: block;
+	content: "";
+	clear: both;
+	height: 0;
+}
+
+* html .clearfix             { zoom: 1; } /* IE6 */
+*:first-child+html .clearfix { zoom: 1; } /* IE7 */
+
+em {
+	color: #808286;
+	margin-bottom: 20px;
+	display: block;
+	
+	width: 280px;
+	font-weight: 300;
+}
+
+
+
+
+
+/* ---------- Structural Styles ---------- */
+div#pageContainer {
+	width: 850px;
+	margin: 0 auto;
+	padding: 1px;
+
+	border: 1px solid #d7dadf;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+
+
+
+
+/* ---------- Tabs Styles ---------- */
+ul#tabs {
+	background-color: #3d3e41;
+}
+
+ul#tabs li {
+	padding: 25px;
+	float: left;
+}
+
+	ul#tabs li h1, ul#tabs li span { margin-left: 50px; }
+	
+	ul#tabs li h1 {
+		font-size: 16px;
+		color: white;
+		
+		text-transform: uppercase;
+	}
+	
+	ul#tabs li span {
+		font-size: 12px;
+		color: #8c8e95;
+		display: block;
+		margin-bottom: 3px;
+	}
+	
+	div.signInTabContent { background: url("../images/signInIcon.png") left center no-repeat; height: 36px;}
+
+	
+
+	ul#tabs li.activeTab {
+		position: relative;
+		float: left;
+	}
+	
+		ul#tabs li.activeTab span.activeTabArrow {
+			position: absolute;
+			background: url("../images/activeTabArrow.png") center center no-repeat;
+			width: 16px;
+			height: 8px;
+			top: 86px;
+			left: 34px;
+			
+			margin: 0;
+		}
+
+	
+
+
+div#signIn, div#signUp {
+	padding: 50px 25px 30px 25px;
+	
+	background: white;
+	background: -moz-linear-gradient(top, white, #f0f2f4 1px, white 50px);
+	background: -webkit-gradient(linear, 0 0, 0 50, from(white), color-stop(2%, #f0f2f4), to(white));
+}
+
+div#signIn form.cleanForm { width: 440px; margin: 0 auto; }
+
+div#signUp form.cleanForm { width: 500px; float: left; }
+
+div#sidebar {
+	float: right;
+	padding: 25px;
+	
+	width: 240px;
+
+	border: 1px solid #eaedf1;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+
+	-moz-box-shadow: inset 0 0 35px 5px #fafbfd;
+	-webkit-box-shadow: inset 0 0 35px 5px #fafbfd;
+	box-shadow: inset 0 0 35px 5px #fafbfd;
+}
+
+	div#sidebar h3 {
+		font-weight: bold;
+		font-size: 14px;
+		margin-bottom: 20px;
+	}
+	
+	div#sidebar ul li {
+		color: #808286;
+		background: url("../img/bulletPoint.png") left 3px no-repeat;
+		margin: 0 0 10px 20px;
+		padding-left: 15px;
+	}
+
+
+
+
+
+/* ---------- Form Style ---------- */
+form.cleanForm p { margin-bottom: 15px; }
+
+	form.cleanForm div a {
+		color: #1271c1;
+		border-bottom: 1px dotted #1271c1;
+	}
+
+		form.cleanForm div a:hover {
+			color: #3d3e41;
+			border-bottom: 1px dotted #3d3e41;
+		}
+
+input[type="text"], input[type="password"], input[type="email"], input[type="tel"] {
+	color: #787a7e;
+	font-size: 18px;
+	padding: 0 px;
+	border: 1px solid #d5d9de;
+	outline: none;
+	height: 30px;
+	width: 250px;
+	
+	-moz-box-shadow: 0 0 0 0px #faf9f9, inset 0 0 5px 5px #faf9f9;
+	-webkit-box-shadow: 0 0 0 0px #faf9f9, inset 0 0 5px 5px #faf9f9;
+	box-shadow: 0 0 0 0px #faf9f9, inset 0 0 5px 5px #faf9f9;
+}
+
+input[type="submit"] {
+	border: 1px solid #39adf0;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	
+	background: #6ac7fc; /* Fallback */
+	background: url("../img/submitButtonArrow.png") 88% center no-repeat, -moz-linear-gradient(top, #6ac7fc, #39adf0);
+	background: url("../img/submitButtonArrow.png") 88% center no-repeat, -webkit-gradient(linear, 0 0, 0 100%, from(#6ac7fc), to(#39adf0));
+	
+	color: white;
+	font-size: 14px;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	text-shadow: 1px 1px 0 #7a7a7a;
+	
+	padding: 12px 45px 12px 15px;
+	cursor: pointer;
+}
+
+	input[type="submit"]:hover {
+		background: #70d2fd; /* Fallback */
+		background: url("../img/submitButtonArrow.png") 88% center no-repeat, -moz-linear-gradient(top, #70d2fd, #3cb9f5);
+		background: url("../img/submitButtonArrow.png") 88% center no-repeat, -webkit-gradient(linear, 0 0, 0 100%, from(#70d2fd), to(#3cb9f5));
+	}
+
+	input[type="text"]:hover, input[type="text"]:focus, input[type="password"]:hover, input[type="password"]:focus,
+	input[type="email"]:hover, input[type="email"]:focus, input[type="tel"]:hover, input[type="tel"]:focus {
+		border: 1px solid #c1c5ca;
+	}
+
+form.cleanForm p label {
+	font-weight: bold;
+	font-size: 14px;
+	
+	display: block;
+	float: left;
+	width: 130px;
+	height: 55px;
+	line-height: 55px;
+	
+	margin-right: 20px;
+	text-align: right;
+}
+
+	
+
+
+
+
+
+
+
+
+
+.button {
+	display: inline-block;
+	zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
+	*display: inline;
+	vertical-align: baseline;
+	margin: 0 2px;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	font: 14px/100% Arial, Helvetica, sans-serif;
+	padding: .5em 2em .55em;
+	text-shadow: 0 1px 1px rgba(0,0,0,.3);
+	-webkit-border-radius: .5em; 
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+}
+.button:hover {
+	text-decoration: none;
+}
+.button:active {
+	position: relative;
+	top: 1px;
+}
+
+.green {
+	color: #e8f0de;
+	border: solid 1px #538312;
+	background: #64991e; margin:10px 0px 10px 10px;
+	background: -webkit-gradient(linear, left top, left bottom, from(#7db72f), to(#4e7d0e));
+	background: -moz-linear-gradient(top,  #7db72f,  #4e7d0e);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#7db72f', endColorstr='#4e7d0e') ;
+}
+.green:hover {
+	background: #538018;
+	background: -webkit-gradient(linear, left top, left bottom, from(#6b9d28), to(#436b0c));
+	background: -moz-linear-gradient(top,  #6b9d28,  #436b0c);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#6b9d28', endColorstr='#436b0c');
+}
+.green:active {
+	color: #a9c08c;
+	background: -webkit-gradient(linear, left top, left bottom, from(#4e7d0e), to(#7db72f));
+	background: -moz-linear-gradient(top,  #4e7d0e,  #7db72f);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#4e7d0e', endColorstr='#7db72f');
+}

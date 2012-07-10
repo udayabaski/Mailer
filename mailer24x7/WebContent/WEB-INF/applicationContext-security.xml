@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+http://www.springframework.org/schema/jee 
+http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	 <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled">
+          <!-- <security:expression-handler ref="expressionHandler" />  -->
+	 </security:global-method-security>
+		
+	<security:http pattern="/styles/**" security="none"/>
+	<security:http pattern="/script/**" security="none"/>
+	<security:http pattern="/images/**" security="none"/>
+	
+	<security:http  use-expressions="true" auto-config="false">
+
+		<security:intercept-url pattern="/auth/loginform.form*"
+			access="permitAll" />
+		<security:intercept-url pattern="/comn/regform.form*"
+			access="permitAll" />
+		<security:intercept-url pattern="/amn/**"
+			access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/usr/**"
+			access="hasRole('ADMIN') OR hasRole('USER')"  />
+		<security:intercept-url pattern="/secure/**"
+			access="hasRole('ADMIN')" requires-channel="https" />
+		<security:intercept-url pattern="/*.form"
+			access="hasRole('ADMIN')" />
+
+		<security:form-login login-page="/auth/loginform.form" 
+				authentication-failure-url="/auth/loginform.form" default-target-url="/usr/home.form"/>
+		
+		<security:access-denied-handler error-page="/denied"/>
+
+		<security:logout logout-success-url="/auth/loginform.form"
+			invalidate-session="true" />
+
+		<security:port-mappings>
+			<security:port-mapping http="8080" https="8443" />
+		</security:port-mappings>
+
+		<!-- <security:session-management
+			invalid-session-url="/auth/loginform.form"
+			session-fixation-protection="newSession">
+			<security:concurrency-control
+				expired-url="/auth/loginform.form" max-sessions="1"
+				error-if-maximum-exceeded="true" />
+		</security:session-management>  -->
+
+	</security:http>
+
+    <!-- <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/MySQLDS"/>-->
+    
+    
+	<bean id="userDetailsService"
+	 	class="com.nervytech.mailer24x7.spring.controllers.UserDetailsServiceImpl">
+	 	 <!-- <property name="usersDAO">
+			<ref bean="usersDAO" /> 
+		</property>	 -->
+    </bean>
+
+	 
+	<bean id="passwordEncoder"
+		class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" />
+
+	<bean id="saltSource"
+		class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+		<property name="userPropertyToUse" value="username"/>
+	</bean>
+
+	<security:authentication-manager>
+		<security:authentication-provider
+			user-service-ref="userDetailsService">
+			  <security:password-encoder ref="passwordEncoder"
+				hash="sha">
+				<security:salt-source ref="saltSource"
+					user-property="username" /> 
+			</security:password-encoder>
+
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+</beans>
