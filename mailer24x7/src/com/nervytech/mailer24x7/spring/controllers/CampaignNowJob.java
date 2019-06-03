@@ -78,7 +78,6 @@ public class CampaignNowJob {
 			}
 
 			shutDownAndWaitToFinish(executor);
-			System.out.println("SHUTDONW AND EXEEEEE Added to QQQQQQQQQQQQQQQQ");
 
 		} catch (Exception e) {
 			e.printStackTrace();
